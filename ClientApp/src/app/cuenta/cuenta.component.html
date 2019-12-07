@@ -25,13 +25,14 @@
     </div>
     <div class="col-lg-5">
             <label>Valor</label>
-            <input type="number" [(ngModel)]="seleccionado.valor" class="form-control" name="nombre">
+            <input type="number" placeholder="Ingrese valor de la cuenta (sin puntos o comas)" [(ngModel)]="seleccionado.valor" class="form-control" name="nombre">
     </div>
         </div>
         <br>
 <div class="row">
     <div class="col-lg-12 mybtn">
-<button class="btn btn-info " (click)="guardar()">+ Añadir cuenta</button>
+<button class="btn btn-info mr-3" (click)="guardar()">+ Añadir cuenta</button>
+<button class="btn btn-danger ml-3 " (click)="limpiar()">Limpiar tablas</button>
     </div>
 </div>
 <br>
@@ -79,8 +80,10 @@
                   </tr>
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                    ((element.categoria=='I')&&(element.descripcion.includes("DEVOLUCION")))
                   <td *ngIf="(ecuenta.categoria=='I')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf="(ecuenta.categoria=='I')">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='I')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='I')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -96,7 +99,8 @@
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
                   <td *ngIf="(ecuenta.categoria=='C')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf="(ecuenta.categoria=='C')">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='C')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='C')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -112,7 +116,8 @@
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
                   <td *ngIf="(ecuenta.categoria=='E')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf="(ecuenta.categoria=='E')">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='E')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((element.categoria=='E')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>

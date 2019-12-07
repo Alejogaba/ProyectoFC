@@ -44,6 +44,10 @@ private searchTerms = new Subject<string>();
     this.get();
     
   }
+  limpiar() {
+    sessionStorage.clear();
+    //this._router.navigate(['/login']);
+}
   get(){
     this.cuentaservice.get().subscribe(c=>{
       return this.Cuentas=c});
@@ -51,14 +55,25 @@ private searchTerms = new Subject<string>();
 
   negativizar():Observable<any>{
     this.total_ingresos=0;
+    this.total_gastos=0;
+    this.total_costos=0;
     for (let index = 0; index < this.listacuentas.length; index++) {
       const element = this.listacuentas[index];
       if ((element.categoria=='I')&&(element.descripcion.includes("DEVOLUCION"))) {
         this.total_ingresos=this.total_ingresos-element.valor;
+      }else{
+        if ((element.categoria=='E')&&(element.descripcion.includes("DEVOLUCION"))) {
+          this.total_gastos=this.total_gastos-element.valor;
+      }else{
+        if ((element.categoria=='C')&&(element.descripcion.includes("DEVOLUCION"))) {
+          this.total_costos=this.total_costos-element.valor;
       }
     }
-    return null;
   }
+  }
+  return null;
+}
+
 
   calcular_total_ingresos_costos_gastos():Observable<any>{
   for (let index = 0; index < this.listacuentas.length; index++) {
@@ -66,10 +81,17 @@ private searchTerms = new Subject<string>();
     if ((element.categoria=='I')&&!(element.descripcion.includes("DEVOLUCION"))) {
       this.total_ingresos=this.total_ingresos+element.valor;
     }else{
-      return null;
+      if ((element.categoria=='E')&&!(element.descripcion.includes("DEVOLUCION"))) {
+        this.total_gastos=this.total_gastos+element.valor;
+    }else{
+      if ((element.categoria=='C')&&!(element.descripcion.includes("DEVOLUCION"))) {
+        this.total_costos=this.total_costos+element.valor;
+        }
       }
     }
   }
+return null;
+}
   
   
   
