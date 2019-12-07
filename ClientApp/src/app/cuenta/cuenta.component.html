@@ -1,0 +1,129 @@
+<div class="container">
+        <div class="row">
+    <div id="search-component" class="col-lg-7">
+        <label for="search-box">Nombre de la cuenta</label>
+        <div  class="ng-autocomplete">
+            <ng-autocomplete
+              [data]="Cuentas"
+              [searchKeyword]="keyword"
+              placeHolder="Ingrese nombre de la cuenta"
+              (selected)='selectEvent($event)'
+              (inputChanged)='onChangeSearch($event)'
+              (inputFocused)='onFocused($event)'
+              [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+          
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.codigo+' '+item.descripcion"></a>
+            </ng-template>
+          
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div> 
+    </div>
+    <div class="col-lg-5">
+            <label>Valor</label>
+            <input type="number" [(ngModel)]="seleccionado.valor" class="form-control" name="nombre">
+    </div>
+        </div>
+        <br>
+<div class="row">
+    <div class="col-lg-12 mybtn">
+<button class="btn btn-info " (click)="guardar()">+ Añadir cuenta</button>
+    </div>
+</div>
+<br>
+<div class="row">
+<div class="col-lg-12">
+        <h6>Estados financieros</h6>
+        <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Cuenta</th>
+                    <th scope="col">Debe</th>
+                    <th scope="col">Haber</th>
+                  </tr>
+                </thead>
+                <tr scope="row" *ngFor="let mcuenta of listacuentas">
+                
+                  <td>{{mcuenta.codigo}}</td>
+                  <td>{{mcuenta.descripcion}}</td>
+                  <td *ngIf="((mcuenta.categoria=='A')||(mcuenta.categoria=='E')||(mcuenta.categoria=='C'));else elseBlock">{{mcuenta.valor}}</td>
+                  <ng-template #elseBlock><td>  </td></ng-template>
+                  <td *ngIf="((mcuenta.categoria=='L')||(mcuenta.categoria=='Q')||(mcuenta.categoria=='I'));else esfalso">{{mcuenta.valor}}</td>
+                  <ng-template #esfalso><td>  </td></ng-template>
+                </tr>
+                <thead class="thead-light">
+                <tr>
+                    <th></th>
+                    <th>TOTAL</th>
+                    <th>{{total_debe}}</th>
+                    <th>{{total_haber}}</th>
+                </tr>
+                </thead>
+              </table>
+</div>
+</div>
+<br>
+<div class="row">
+<div class="col-lg-12">
+        <h6>Estado de resultados</h6>
+        <table  class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Igresos</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                  <td *ngIf="(ecuenta.categoria=='I')">{{ecuenta.descripcion}}</td>
+                  <td *ngIf="(ecuenta.categoria=='I')">{{ecuenta.valor}}</td>
+                </tr>
+                <thead class="thead-light">
+                <tr>
+                    <th>Total ingresos</th>
+                    <th>{{total_ingresos}}</th>
+                </tr>
+                </thead>
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Costos</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                  <td *ngIf="(ecuenta.categoria=='C')">{{ecuenta.descripcion}}</td>
+                  <td *ngIf="(ecuenta.categoria=='C')">{{ecuenta.valor}}</td>
+                </tr>
+                <thead class="thead-light">
+                <tr>
+                    <th>Total costos</th>
+                    <th>{{total_costos}}</th>
+                </tr>
+                </thead>
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Gastos</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                  <td *ngIf="(ecuenta.categoria=='E')">{{ecuenta.descripcion}}</td>
+                  <td *ngIf="(ecuenta.categoria=='E')">{{ecuenta.valor}}</td>
+                </tr>
+                <thead class="thead-light">
+                <tr>
+                    <th>Total gastos</th>
+                    <th>{{total_gastos}}</th>
+                </tr>
+                </thead>
+              </table>
+
+</div>
+</div>
+           
+        <router-outlet></router-outlet>
+      </div>
