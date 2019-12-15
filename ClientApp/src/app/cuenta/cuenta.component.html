@@ -1,6 +1,6 @@
 <div class="container">
         <div class="row">
-    <div id="search-component" class="col-lg-7">
+    <div id="search-component" class="col-sm-12 col-md-12 col-lg-12 col-xl-7">
         <label for="search-box">Nombre de la cuenta</label>
         <div  class="ng-autocomplete">
             <ng-autocomplete
@@ -23,21 +23,21 @@
             </ng-template>
           </div> 
     </div>
-    <div class="col-lg-5">
+    <div class="col-sm-12 col-md-12 col-lg-7 col-xl-5">
             <label>Valor</label>
-            <input type="number" placeholder="Ingrese valor de la cuenta (sin puntos o comas)" [(ngModel)]="seleccionado.valor" class="form-control" name="nombre">
+            <input type="number" value='0' placeholder="Ingrese valor de la cuenta (sin puntos o comas)" [(ngModel)]="seleccionado.valor" class="form-control" name="nombre">
     </div>
         </div>
         <br>
 <div class="row">
     <div class="col-lg-12 mybtn">
 <button class="btn btn-info mr-3" (click)="guardar()">+ Añadir cuenta</button>
-<button class="btn btn-danger ml-3 " (click)="limpiar()">Limpiar tablas</button>
+<button class="btn btn-danger ml-3 " (click)="limpiar()">- Limpiar tablas</button>
     </div>
 </div>
 <br>
 <div class="row">
-<div class="col-lg-12">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h6>Estados financieros</h6>
         <table class="table">
                 <thead class="thead-light">
@@ -49,13 +49,12 @@
                   </tr>
                 </thead>
                 <tr scope="row" *ngFor="let mcuenta of listacuentas">
-                
-                  <td>{{mcuenta.codigo}}</td>
-                  <td>{{mcuenta.descripcion}}</td>
+                  <td *ngIf="((mcuenta.categoria=='A')||(mcuenta.categoria=='E')||(mcuenta.categoria=='C')||(mcuenta.categoria=='L')||(mcuenta.categoria=='Q')||(mcuenta.categoria=='I'))">{{mcuenta.codigo}}</td>
+                  <td *ngIf="((mcuenta.categoria=='A')||(mcuenta.categoria=='E')||(mcuenta.categoria=='C')||(mcuenta.categoria=='L')||(mcuenta.categoria=='Q')||(mcuenta.categoria=='I'))">{{mcuenta.descripcion}}</td>
                   <td *ngIf="((mcuenta.categoria=='A')||(mcuenta.categoria=='E')||(mcuenta.categoria=='C'));else elseBlock">{{mcuenta.valor}}</td>
-                  <ng-template #elseBlock><td>  </td></ng-template>
+                  <ng-template #elseBlock><td *ngIf="!((mcuenta.categoria=='QR')||(mcuenta.categoria=='ER'))">  </td></ng-template>
                   <td *ngIf="((mcuenta.categoria=='L')||(mcuenta.categoria=='Q')||(mcuenta.categoria=='I'));else esfalso">{{mcuenta.valor}}</td>
-                  <ng-template #esfalso><td>  </td></ng-template>
+                  <ng-template #esfalso><td *ngIf="!((mcuenta.categoria=='QR')||(mcuenta.categoria=='ER'))">  </td></ng-template>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -70,7 +69,7 @@
 </div>
 <br>
 <div class="row">
-<div class="col-lg-12">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h6>Estado de resultados</h6>
         <table  class="table">
                 <thead class="thead-light">
@@ -80,10 +79,9 @@
                   </tr>
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
-                    ((element.categoria=='I')&&(element.descripcion.includes("DEVOLUCION")))
                   <td *ngIf="(ecuenta.categoria=='I')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf=" ((element.categoria=='I')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
-                  <td *ngIf=" ((element.categoria=='I')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='I')&&!(ecuenta.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='I')&&(ecuenta.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -99,8 +97,8 @@
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
                   <td *ngIf="(ecuenta.categoria=='C')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf=" ((element.categoria=='C')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
-                  <td *ngIf=" ((element.categoria=='C')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='C')&&!(ecuenta.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='C')&&(ecuenta.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -116,8 +114,8 @@
                 </thead>
                 <tr scope="row" *ngFor="let ecuenta of listacuentas" >
                   <td *ngIf="(ecuenta.categoria=='E')">{{ecuenta.descripcion}}</td>
-                  <td *ngIf=" ((element.categoria=='E')&&!(element.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
-                  <td *ngIf=" ((element.categoria=='E')&&(element.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='E')&&!(ecuenta.descripcion.includes('DEVOLUCION')))">{{ecuenta.valor}}</td>
+                  <td *ngIf=" ((ecuenta.categoria=='E')&&(ecuenta.descripcion.includes('DEVOLUCION')))">-{{ecuenta.valor}}</td>
                 </tr>
                 <thead class="thead-light">
                 <tr>
@@ -129,6 +127,88 @@
 
 </div>
 </div>
-           
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <br>
+          <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Codigo</th>
+                      <th scope="col">Cuenta</th>
+                      <th scope="col">Debe</th>
+                      <th scope="col">Haber</th>
+                    </tr>
+                  </thead>
+                  <tr scope="row" *ngFor="let mcuenta of listacuentas">
+                    <td *ngIf="(mcuenta.categoria=='QR')">{{mcuenta.codigo}}</td>
+                    <td *ngIf="(mcuenta.categoria=='QR')">{{mcuenta.descripcion}}</td>
+                    <td *ngIf="(mcuenta.categoria=='QR')"></td>
+                    <td *ngIf="(mcuenta.categoria=='QR')">{{mcuenta.valor}}</td>
+                  </tr>
+                  <tr scope="row" *ngFor="let mcuenta of listacuentas">
+                    <td *ngIf="(mcuenta.categoria=='ER')">{{mcuenta.codigo}}</td>
+                    <td *ngIf="(mcuenta.categoria=='ER')">{{mcuenta.descripcion}}</td>
+                    <td *ngIf="(mcuenta.categoria=='ER')">{{mcuenta.valor}}</td>
+                    <td *ngIf="(mcuenta.categoria=='ER')"></td>
+                  </tr>
+                </table>
+  </div>
+  </div>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <h6>Estado de situacion financiera</h6>
+          <table  class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Activos</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                    <td *ngIf="(ecuenta.categoria=='A')">{{ecuenta.descripcion}}</td>
+                    <td *ngIf="(ecuenta.categoria=='A')">{{ecuenta.valor}}</td>
+                  </tr>
+                  <thead class="thead-light">
+                  <tr>
+                      <th>Total Activos</th>
+                      <th>{{total_activos}}</th>
+                  </tr>
+                  </thead>
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Pasivos</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                    <td *ngIf="(ecuenta.categoria=='L')">{{ecuenta.descripcion}}</td>
+                    <td *ngIf="(ecuenta.categoria=='L')">{{ecuenta.valor}}</td>
+                  </tr>
+                  <thead class="thead-light">
+                  <tr>
+                      <th>Total Pasivos</th>
+                      <th>{{total_pasivos}}</th>
+                  </tr>
+                  </thead>
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Patrimonio</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tr scope="row" *ngFor="let ecuenta of listacuentas" >
+                    <td *ngIf="((ecuenta.categoria=='Q')||(ecuenta.categoria=='QR'))">{{ecuenta.descripcion}}</td>
+                    <td *ngIf="((ecuenta.categoria=='Q')||(ecuenta.categoria=='QR'))">{{ecuenta.valor}}</td>
+                  </tr>
+                  <thead class="thead-light">
+                  <tr>
+                      <th>Total Patrimonio</th>
+                      <th>{{total_patrimonio}}</th>
+                  </tr>
+                  </thead>
+                </table>
+  
+  </div>
+  </div>  
         <router-outlet></router-outlet>
       </div>
